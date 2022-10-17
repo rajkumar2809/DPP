@@ -1,0 +1,170 @@
+{% load static %}
+                </div>
+            </main>
+            
+            <footer class="footer pt-1 pb-1">
+               <div class="container-fluid">
+                  <div class="row text-muted">
+                     <div class="col-12 text-start">
+                        <p class="mb-0">
+                           <a class="text-muted" href="http://165.22.210.193:8007/login/" target="_blank"><strong>Daily Plan and Progress</strong></a> - &copy; <a class="text-muted" href="https://secuodsoft.com" target="_blank"><strong>SecuodSoft</strong></a>                       
+                        </p>
+                     </div>
+                  </div>
+               </div>
+            </footer>
+
+
+
+            </div>        
+         </div>
+      </div>
+
+      <script src="{% static 'assets/js/app.js' %}"></script>
+      <!-- DataTables  & Plugins -->
+      <script src="{% static 'assets/plugins/datatables/jquery.dataTables.min.js' %}"></script>
+      <script src="{% static 'assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js' %}"></script>
+      <script src="{% static 'assets/plugins/datatables-responsive/js/dataTables.responsive.min.js' %}"></script>
+      <script src="{% static 'assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js' %}"></script>
+      <!-- SweetAlert2 -->
+      <script src="{% static 'assets/plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+
+      <!-- Toastr -->
+      <script src="{% static 'assets/plugins/toastr/toastr.min.js' %}"></script>
+
+      <script type="text/javascript">
+         var date = new Date();
+         const elementDay = document.getElementById("printDay");
+         const elementTime = document.getElementById("printTime");
+         const listOfDays = [
+           "Sunday",
+           "Monday",
+           "Tuesday",
+           "Wednesday",
+           "Thursday",
+           "Friday",
+           "Saturday"
+         ];
+
+
+         function printDay() {
+           date = new Date();
+           var numberOfDay = date.getDay();
+           var day = listOfDays[numberOfDay];
+           elementDay.innerHTML = day;
+         }
+
+         function printTime() {
+           date = new Date();
+           var hours = date.getHours();
+           var minutes = date.getMinutes();
+           var seconds = date.getSeconds();
+
+           if (seconds < 10) {
+             seconds = "0" + seconds;
+           }
+           if (minutes < 10) {
+             minutes = "0" + minutes;
+           }
+           if (hours > 12) {
+             hours = hours - 12;
+             elementTime.innerHTML = hours + " : " + minutes + " : " + seconds + "  PM ";
+           } else if (hours < 12) {
+             elementTime.innerHTML = hours + " : " + minutes + " : " + seconds + "  AM ";
+           } else if (hours = 12) {
+             elementTime.innerHTML = hours + " : " + minutes + " : " + seconds + "  PM ";
+           }
+         }
+         setInterval(function() {
+           printTime();
+           printDay();
+         }, 1000);
+
+         //date start//
+         var today = new Date();
+         var day = today.getDate();
+         var month = today.getMonth() + 1;
+         var year = today.getFullYear();
+         if (day < 10) {day = '0' + day}
+         if (month < 10) {month = '0' + month}
+         var out = document.getElementById("printDate");
+         out.innerHTML = day + "/" + month + "/" + year;
+         //date end//
+      </script>
+
+
+<script>
+  $(function() {
+    var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+    });
+
+    $('.successmsg').click(function() {
+      toastr.success('task details updated successfully.')
+    });
+    $('.infomessage').click(function() {
+      toastr.info('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.erroemessage').click(function() {
+      toastr.error('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+    $('.warningmessage').click(function() {
+      toastr.warning('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+    });
+
+
+      $('#logoutbtn').click(function() {
+             Swal.fire({
+           title: 'Are you sure?',
+           text: "You won't be able to Logout!",
+           icon: 'warning',
+           showCancelButton: true,
+           confirmButtonColor: '#3085d6',
+           cancelButtonColor: '#d33',
+           confirmButtonText: 'Yes, Logout!'
+         }).then((result) => {
+          // $.ajax({
+          //   type:"GET",
+          //       url: "/logout/",
+          //   success: function( data ) 
+          //       {
+          //           console.log("you have been successfully loged out");
+          //           // window.location.href="/individual_group/";
+                
+          //       },
+          //   error: function()
+          //       {
+          //           console.log("Ajax errro roccured");
+          //       }
+
+          // });
+          if (result.isConfirmed) {
+          $.ajax({
+            type: "GET",
+            url: "{% url 'logout' %}" ,
+            success: function (data ){
+                  window.location.replace('/login');
+              }
+          });
+        }
+           // if (result.isConfirmed) {
+           //   Swal.fire(
+           //     'Deleted!',
+           //     'Your file has been deleted.',
+           //     'success'
+           //   )
+           // }
+         })
+      });
+
+
+
+
+  });
+</script>
+
+   </body>
+</html>

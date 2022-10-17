@@ -1,0 +1,202 @@
+{% include "header.html" %}
+{% load static %}
+<link href="{% static 'assets/css/messenger.css' %}" rel="stylesheet">
+
+<div class="row">
+   <div class="col-sm-3 messenger">
+      <div id="chat" class="chat">
+         <div class="conversation">
+            <div class="head">
+               <h3 class="person-name mb-0">Members</h3>
+            </div>
+            <div class="msgserch">
+               <input type="text" class="form-control searchbox" name="" placeholder="Search">
+            </div>
+            <div class="msgmemberhight">
+               <div class="row msgdata">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Priyabrata</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount">2</div>
+                  </div>
+               </div>
+
+               <div class="row msgdata active">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Rajesh</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount"></div>
+                  </div>
+               </div>
+
+               <div class="row msgdata">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Chandan</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount"></div>
+                  </div>
+               </div>
+
+               <div class="row msgdata">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Chandan</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount">2</div>
+                  </div>
+               </div>
+
+               <div class="row msgdata">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Priyabrata</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount"></div>
+                  </div>
+               </div>
+
+               <div class="row msgdata">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Priyabrata</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount"></div>
+                  </div>
+               </div>
+
+               <div class="row msgdata">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Priyabrata</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount">2</div>
+                  </div>
+               </div>
+
+               <div class="row msgdata">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Priyabrata</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount"></div>
+                  </div>
+               </div>
+
+               <div class="row msgdata">
+                  <div class="col-9">
+                     <div class="msglistname ellipsis-text">Priyabrata</div>
+                  </div>
+                  <div class="col-3 my-auto">
+                     <div class="msgcount"></div>
+                  </div>
+               </div>
+
+            </div>
+
+         </div>
+      </div>
+   </div>
+
+   <div class="col-sm-9 messenger">
+      <div id="chat" class="chat">
+         <div class="conversation">
+            <div class="head">
+               <h3 class="person-name mb-0">Rajesh</h3>
+            </div>
+            
+            <div id="messages" class="messages">
+               <div class="time">Today</div>
+               <div class="msg-text">
+                  <span class="text">Hello</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="msg-text">
+                  <span class="text">How are you doing?</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="msg-text owner">
+                  <span class="text">Fine</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="msg-text owner">
+                  <span class="text">You?</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="msg-text">
+                  <span class="text">Good</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="time">Today</div>
+               <div class="msg-text">
+                  <span class="text">Hello</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="msg-text">
+                  <span class="text">How are you doing?</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="msg-text owner">
+                  <span class="text">Fine</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="msg-text owner">
+                  <span class="text">You?</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+               <div class="msg-text">
+                  <span class="text">Good</span>
+                  <span class="msttm">12:15 PM</span>
+               </div>
+            </div>
+            
+            <div class="field">
+               <input  class="input-message" type="text" placeholder="Type something..." />
+               <div class="icon send audio">
+                  <i class="fa fa fa-paper-plane"></i>
+               </div>
+            </div>
+         </div>
+         
+      </div>
+   </div>
+</div>
+
+
+
+
+{% include "footer.html" %}
+
+
+<script type="text/javascript">$('#messages').scrollTop($('#messages')[0].scrollHeight);</script>
+
+<!----search box js start---->
+<script type="text/javascript">
+
+var $targets = $('.msgdata');
+
+$('.searchbox').on('input', function () {
+   $targets.show();
+   
+   var text = $(this).val().toLowerCase();   
+   if (text) {      
+      $targets.filter(':visible').each(function () {
+         var $target = $(this);
+         var $matches = 0;
+         // Search only in targeted element
+         $target.find('span, p').add($target).each(function () {            
+            if ($(this).text().toLowerCase().indexOf("" + text + "") !== -1) {
+               $matches++;
+            }
+         });
+         if ($matches === 0) {
+            $target.hide();
+         }
+      });
+   }
+   
+});
+</script>
+<!----search box js end---->

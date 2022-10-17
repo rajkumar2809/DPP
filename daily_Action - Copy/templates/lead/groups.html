@@ -1,0 +1,199 @@
+{% include "lead/header.html" %}
+{% load static %}
+                  <div class="row">
+                     <div class="col-sm-8">
+                        <h4 class="subheading">All Groups</h4>
+                     </div>
+                     <div class="col-4 text-right">
+                        <button class="btn btn-primary btn-sm" onclick="openNav()"><i class="fa fa-plus"></i> Add Group</button>
+                     </div>
+                     <div class="col-12"><hr class="mt-1"></div>
+                  </div>
+                  <div class="row">
+                     <div class="col-12">
+                        <div class="row">
+
+                           {% for g in groups %}
+                           <div class="col-sm-3">
+                              <a href="{% url 'individual_group' g.id %}" class="card group-area">
+                                 <div class="card-body position-relative">
+                                    <div class="row">
+                                       <div class="col-4 my-auto">
+                                          <div class="group-logo">
+                                             <img src="{% static 'assets/group-logo/python-logo.png' %}">
+                                          </div>
+                                       </div>
+                                       <div class="col-8 my-auto">
+                                          <span class="groups-nms">{{g.name}}</span>
+                                       </div>
+                                    </div>
+                                    <div class="total-member" title="Total Members in Group : 20"><i class="fa fa-users" aria-hidden="true"></i> 20</div>
+                                 </div>
+                              </a>
+                           </div>
+                           {% endfor %}
+
+                        </div>
+
+                        <!--
+                        <div class="card">
+                           <div class="card-header p-3 cust-bod-b">
+                              <h5 class="card-title mb-0">Groups are</h5>
+                           </div>
+                           <div class="card-body p-3">
+
+                              <div class="accordion" id="accordionExample">
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="heading1">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse1" aria-expanded="true" aria-controls="collapse1">
+                                      Team UX/UI Designer
+                                    </button>
+                                  </h2>
+                                  <div id="collapse1" class="accordion-collapse collapse" aria-labelledby="heading1" data-bs-parent="#accordionExample">
+                                    <table class="table table-hover my-0">
+                                       <thead>
+                                          <tr>
+                                             <th>ID</th>
+                                             <th class="d-none d-xl-table-cell">User Email</th>
+                                             <th class="d-none d-xl-table-cell">Name</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr>
+                                             <td>12</td>
+                                             <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                             <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                          </tr>
+                                          <tr>
+                                             <td>12</td>
+                                             <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                             <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                          </tr>
+                                          <tr>
+                                             <td>12</td>
+                                             <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                             <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="heading2">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse2" aria-expanded="false" aria-controls="collapse2">
+                                      Team Python Developer
+                                    </button>
+                                  </h2>
+                                  <div id="collapse2" class="accordion-collapse collapse" aria-labelledby="heading2" data-bs-parent="#accordionExample">
+                                    <table class="table table-hover my-0">
+                                       <thead>
+                                          <tr>
+                                             <th>ID</th>
+                                             <th class="d-none d-xl-table-cell">User Email</th>
+                                             <th class="d-none d-xl-table-cell">Name</th>
+                                          </tr>
+                                       </thead>
+                                       <tbody>
+                                          <tr>
+                                             <td>12</td>
+                                             <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                             <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                          </tr>
+                                          <tr>
+                                             <td>12</td>
+                                             <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                             <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                          </tr>
+                                          <tr>
+                                             <td>12</td>
+                                             <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                             <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+
+                                <div class="accordion-item">
+                                  <h2 class="accordion-header" id="heading3">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse3" aria-expanded="false" aria-controls="collapse3">
+                                      Team PHP Developer
+                                    </button>
+                                  </h2>
+                                  <div id="collapse3" class="accordion-collapse collapse" aria-labelledby="heading3" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                       <table class="table table-hover my-0">
+                                          <thead>
+                                             <tr>
+                                                <th>ID</th>
+                                                <th class="d-none d-xl-table-cell">User Email</th>
+                                                <th class="d-none d-xl-table-cell">Name</th>
+                                             </tr>
+                                          </thead>
+                                          <tbody>
+                                             <tr>
+                                                <td>12</td>
+                                                <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                                <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                             </tr>
+                                             <tr>
+                                                <td>12</td>
+                                                <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                                <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                             </tr>
+                                             <tr>
+                                                <td>12</td>
+                                                <td class="d-none d-xl-table-cell">priyabrata.nath@connectix.net</td>
+                                                <td class="d-none d-xl-table-cell">Priyabrata Nath</td>
+                                             </tr>
+                                          </tbody>
+                                       </table>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                           </div>
+                        </div>
+                        -->
+                     </div>
+                  </div>
+
+            <div id="mySidebars" class="sidebars">
+               <form class="row p-3" method="post">
+                  {% csrf_token %}
+                  <div class="col-9 my-auto"><h5 class="card-title mb-0">Add Group</h5></div>
+                  <div class="col-3 text-right"><a href="javascript:void(0)" class="closebtns" onclick="closeNav()">×</a></div>
+                  <div class="col-12">
+
+                     <div class="form-group mb-3">
+                        <label for="memberusername" class="col-form-label">Group Name</label>
+                        <input type="text" class="form-control" id="group_name" name="group_name">
+                     </div>
+
+                     <div class="form-group mb-3">
+                        <label for="memberfirstname" class="col-form-label">Group Logo</label>
+                        <input type="file" class="form-control" id="group_logo" name="group_logo">
+                     </div>
+
+                     <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-save" aria-hidden="true"></i> Save</button>
+                     </div>
+
+                  </div>
+               </form>
+            </div>
+
+{% include "lead/footer.html" %}
+
+
+<script>
+function openNav() {
+  document.getElementById("mySidebars").style.width = "300px";
+}
+
+function closeNav() {
+  document.getElementById("mySidebars").style.width = "0";
+}
+</script> 

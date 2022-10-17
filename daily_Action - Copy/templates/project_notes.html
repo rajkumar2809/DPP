@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% include "header.html" %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Project notes here</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      <label for="project">Select Project</label>
+                      <select class="form-control" id="project" name = "project">
+                        {% for p in projects %}
+                        <option value="{{p.id}}">{{p.name}}</option>
+                        {% endfor %}
+
+                      </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="catagory">Select Catagory</label>
+                        <select class="form-control" id="catagory" name="catagory">
+                          <option value="DOCUMENTATION">Documentation</option>
+                          <option value="CLIENT-MEETING">Client Meeting</option>
+                          <option value="DOCUMENT-COLLECTION">Document Collection</option>
+                        </select>
+                      </div>
+
+                      <div class="form-group">
+                        <label for="date">Date</label>
+                        <div class='input-group date' >
+                           <input type='text' class="form-control" id='date' name="date"/>
+                           
+                        </div>
+                     </div>
+                    
+                    <div class="form-group">
+                      <label for="description">Description</label>
+                      <textarea class="form-control" id="description"  name="description" rows="3"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        Save
+                    </button>
+                  </form>
+
+            </div>
+            <div class="col-md-6">
+                <h1>Project Notes Are</h1>
+                {% if project_notes %}
+                {% for p in project_notes %}
+                <div class="card">
+                    <h4>Project Id: {{p.project_id}}</h4>
+                    <h4>Catagory Id: {{p.catagory}}</h4>
+                    <h4>Date : {{p.date}}</h4>
+                    <h4>Description : {{p.description}}</h4>
+                </div>
+
+                {% endfor %}
+                {% endif %}
+
+
+            </div>
+
+        </div>
+
+    </div>
+</body>
+</html>
+
+{% include "footer.html" %}

@@ -1,0 +1,168 @@
+<!-- <?php
+$currentPage = 'Members';
+ include 'header.php';
+?> -->
+{% if user.role == "LEAD" %}
+{% include "lead/header.html" %}
+{% else %}
+{% include "header.html" %}
+{% endif %}
+
+
+
+                  <div class="row">
+                     <div class="col-12">
+                        <h4 class="subheading">Members List</h4>
+                     </div>
+                     <div class="col-12">
+                        <div class="card">
+                           <div class="card-body p-3">
+                              <table id="example3" class="table table-hover my-0">
+                                 <thead>
+                                    <tr>
+                                       <th>ID</th>
+                                       <th>First Name</th>
+                                       <th>Last Name</th>
+                                       <th>User Name</th>
+                                       <th>User Role</th>
+                                       <th>Message</th>
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for usr in users %}
+                                    {% if usr.email != user.email %}
+                                    <tr>
+                                       <td>{{usr.id}}</td>
+                                       <td>{{usr.first_name}}</td>
+                                       <td>{{usr.last_name}}</td>
+                                       <td>{{usr.user_name}}</td>
+                                       {% if usr.is_superuser %}
+                                       <td>SUPER</td>
+                                       {% else %}
+                                       <td> {{usr.role}}</td>
+                                       <!-- <td>Designer</td> -->
+                                       <td><button type="button" onclick="send_message({{user.id}} , {{usr.id}} )" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane" aria-hidden="true"></i></button></td>
+                                       {% endif %}
+                                    </tr>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                 </tbody>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+
+            <div id="mySidebars" class="sidebars">
+               <form class="row p-3" method="post" id= "message_form" action="{% url 'save_message' %}" >
+                {% csrf_token %}
+                  <div class="col-9 my-auto"><h5 class="card-title mb-0">Send Message</h5></div>
+                  <div class="col-3 text-right"><a href="javascript:void(0)" class="closebtns" onclick="closeNav()">×</a></div>
+                  <div class="col-12">
+                     <div class="form-group mt-3 mb-3">
+                                         
+                    <input type="hidden" class="form-control" id="sender_id" name="sender_id" >
+                    <input type="hidden" class="form-control" id="receiver_id" name="receiver_id" >
+                        <!-- <p><b>To:</b> <span id="receiver_id" name="receiver_id"></span></p> -->
+                     </div>
+
+                     <div class="form-group mb-4">
+                        <label for="message" class="col-form-label">Write a Message</label>
+                        <textarea class="form-control" id="message" name="message" style="height: 220px;"></textarea>
+                     </div>
+
+                     <div class="form-group text-center">
+                        <button type="submit" class="btn btn-success"><i class="fa fa-paper-plane" aria-hidden="true"></i> Send</button>
+                     </div>
+
+                  </div>
+               </form>
+            </div>
+
+
+{% include "footer.html" %}
+
+<!-- data table 3 initilization start -->
+<script type="text/javascript">
+  $(function () {
+    $("#example3").DataTable({
+      "responsive": false, "lengthChange": true, "autoWidth": false,"scrollX": true,
+    })
+
+  });
+</script>
+<!-- data table 3 initilization start -->
+
+<script>
+// function openNav() {
+//   document.getElementById("mySidebars").style.width = "300px";
+// }
+
+function closeNav() {
+  document.getElementById("mySidebars").style.width = "0";
+}
+</script> 
+
+<script>
+function send_message(sender_id , receiver_id){
+
+    document.getElementById("mySidebars").style.width = "300px";
+
+    console.log("Send message button clicked");
+    console.log("sender_id is :" , sender_id);
+    console.log("receiver id is :" , receiver_id);
+    var sndr_id = document.getElementById("sender_id");
+    sndr_id.value = sender_id ;
+    var rcver_id = document.getElementById("receiver_id");
+    rcver_id.value = receiver_id ;
+
+    }
+
+
+
+</script>
+
+<!-- websocket script starts here -->
+
+
+<script type="text/javascript">
+    let url = `ws://${window.location.host}/ws/send_message/` ;// + window.location.pathname ;
+        console.log(url);
+        console.log(window.location.pathname);
+        const chatSocket = new WebSocket(url)
+
+        chatSocket.onopen = function (event){
+            console.log("the connection is open....");
+            // chatSocket.send("thanks for connecting ...")
+        }
+
+        chatSocket.onmessage = function(event){
+            console.log("received message from the channels backend ...")
+            console.log(event);
+            const ul = document.getElementById("message_list");
+            //  create a list of each message
+            var li = document.createElement('li');
+            var data = JSON.parse(event.data);
+            li.append(document.createTextNode(
+                '[' + data.username +
+             ' ]:' + data.text
+            ));
+            ul.append(li);
+        }
+
+
+
+        chatSocket.onclose = function (event){
+            console.log(event);
+            console.log("connection closed");
+        }
+
+        chatSocket.onerror = function (event){
+            console.log("something error occured");
+            console.log(event);
+        }
+</script>
+
+
+<!-- web socket script ends here -->
