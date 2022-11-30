@@ -62,7 +62,28 @@ class GRP_MEMBER:
         self.l_name = lname
         self.email = email
 
-        
+class ProjNotes:
+    def __init__(self , id , user_id , project_id , project_name , catagory , date , description):
+        self.project_notes_id = id
+        self.user_id = user_id
+        self.project_id = project_id
+        self.project_name = project_name
+        self.catagory = catagory
+        self.date = date
+        self.description = description
+
+class TaskList:
+    def __init__(self , user_email,  project_name , group_name , module_name , created_at , updated_at , estimated_time , time_taken , status , description):
+        self.user_email = user_email
+        self.project_name = project_name
+        self.group_name = group_name
+        self.module_name = module_name
+        self.created_at = created_at
+        self.updated_at = updated_at
+        self.estimated_time = estimated_time
+        self.time_taken = time_taken
+        self.status = status
+        self.description = description
 
 def index(request):
     return render(request , "index.html")
@@ -332,7 +353,7 @@ def lead_dashboard(request , id):
 
         test_list = []              
         for g in total_groups:
-            tasks = Tasks.objects.filter( goup_id = g.id ,created_at__gte=today, created_at__lt=tomorrow)
+            tasks = Tasks.objects.filter( goup_id = g.id ,user_id__gte=today, created_at__lt=tomorrow)
             print("The length of the tasks is" , len(tasks))
             print("the group id is " , g.id)
             print("the group id type is " , type(g.id))
@@ -686,6 +707,7 @@ def individual_group(request , gid):
 
         # user_filtr = NewUser.objects.filter(group_id != "null")
         # user_filtr = NewUser.objects.all()
+        #  View all the members while adding in the group
         user_filtr = NewUser.objects.filter(role = "MEMBER")
         print(user_filtr)
 
@@ -702,7 +724,8 @@ def individual_group(request , gid):
         print("The user list are" , user_list)
         # return HttpResponse(user_list)
         g_name = Egroup.objects.filter(id = gid)
-        return render(request , "lead/group-member.html", {"user_list":user_list , "group_name":g_name})
+
+        return render(request , "lead/group-member.html", {"user_list":user_list , "group_name":g_name , "user_filter":user_filtr , "group_id":gid})
     except Exception as e:
         print(e)
         return HttpResponse(e)
@@ -841,18 +864,22 @@ def Merge(dict1, dict2):
 
 @login_required(login_url = "/login/")
 def add_members(request , id):
+    print("======ADD Members function get called=====")
     # group_id = id
     group_id = id 
-    print(group_id)
+    print("=========================")
+    print("the group id from add members function is " ,group_id)
+    print("=========================")
+
     if request.method == "POST":
         var = request.POST.getlist('checks[]')
        
         for i in var:
-            print("user id is ",var)
+            print("user id is ",i)
             filter_user = NewUser.objects.filter(id = int(i))
             filter_groups = Egroup.objects.filter(id = group_id)
             for g in filter_groups:
-                print(g.name)
+                print("THe group name is " ,g.name)
                 for f in filter_user:
                     print(f.group_id)
                     if(f.group_id ):
@@ -879,21 +906,13 @@ def add_members(request , id):
         print("The user list are" , user_list)
         # return HttpResponse(user_list)
         g_name = Egroup.objects.filter(id = id)
-        return render(request , "individual_group.html", {"user_list":user_list , "group_name":g_name})
+        user_filtr = NewUser.objects.filter(role = "MEMBER")
+        # print(user_filtr)
+        # return render(request , "individual_group.html", {"user_list":user_list , "group_name":g_name})
+        return render(request , "lead/group-member.html", {"user_list":user_list , "group_name":g_name , "user_filter":user_filtr , "group_id":id})
 
 
-    
-    # p = NewUser(group_id={}, dostupnost=1)
-    # p.save()
-
-    groups = Egroup.objects.filter(id = group_id)
-    for g in groups:
-        print(g.name)
-
-    users = NewUser.objects.filter(role = "MEMBER")
-    return render(request , "add_members.html" ,{"users":users , "groups":groups})
-
-
+    return redirect ('/individual_group/' + str(id))
 
 def remove_member_from_group(request):
     if request.method == "POST":
@@ -1021,7 +1040,47 @@ def member_tasks(request , id ):
 
     return render (request , "member_tasks.html" , {"projects":projects , "groups":groups , "tasks":tasks , "currentPage":current_page , "user_role":user_role , "total_groups":total_groups})
 
+def lead_view_members_task(request, id):
+    print("The lead id is " , id)
+    tasks_obj = Tasks.objects.all().order_by('-id')
+    context = {}
+    task_lists = []
+    if len(tasks_obj) > 0:
+        for task in tasks_obj:
+            project_id = task.project_id
+            project_name =""
+            project_obj = Project.objects.filter(id = int(project_id))
+            if len(project_obj) > 0:
+                for proj in project_obj:
+                    project_name = proj.name
+            group_id = task.goup_id
+            group_name = ""
+            group_obj = Egroup.objects.filter(id = int(group_id))
+            if len(group_obj) > 0:
+                for group in group_obj:
+                    group_name = group.name
+            user_id = task.user_id
+            user_obj = NewUser.objects.filter(id = int(user_id))
+            user_email = ""
+            if len(group_obj) > 0:
+                for user in user_obj:
+                    user_email = user.email
+            module_name = task.module_name
+            created_at = task.created_at
+            updated_at = task.updated_at
+            estimated_time = task.estimated_time
+            time_taken = task.time_taken
+            status = task.status
+            description = task.description
 
+            task_lists.append(TaskList(user_email,  project_name , group_name , module_name , created_at , updated_at , estimated_time , time_taken , status , description))
+
+        
+        context['task_lists'] = task_lists      
+
+        return render(request , "lead/lead_view_member_tasks.html" , context )
+    return render(request , "lead/lead_view_member_tasks.html" , context )
+    
 
 def update_task(request):
     print("update task function get called")
@@ -1347,16 +1406,31 @@ def view_message(request):
 
 
 
-
-
 def group_member(request):
     return render(request , "lead/group-member.html")
 
 def project_notes(request , id):
 
     projects = Project.objects.all()
-    project_notes = ProjectNotes.objects.filter(user_id=id)
+    project_notes_obj = ProjectNotes.objects.filter(user_id=id)
+    project_notes = []
 
+    for notes in project_notes_obj:
+        note_id = notes.id
+        user_id = notes.user_id
+        catagory = notes.catagory
+        date = notes.date
+        description = notes.description
+        prid = notes.project_id
+        proj_name = ""
+        #  Using id filter the project object
+        proj_obj = Project.objects.filter(id = int(prid))
+        # Get the project name
+        for proj in  proj_obj:
+            proj_name = proj.name
+        
+        project_notes.append(ProjNotes(note_id ,user_id,prid , proj_name , catagory ,date , description ))
+        
     currentPage = 'Project Notes'
 
     # project_notes = ProjectNotes.objects.filter()

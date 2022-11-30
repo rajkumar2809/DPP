@@ -46,16 +46,25 @@
                      <i class="align-middle" data-feather="user"></i> <span class="align-middle">Members</span>
                      </a>
                   </li>
+                  {% if user_role == "MEMBER" %}
                   <li class="sidebar-item {% if currentPage == 'ViewTask' %} active {% endif %}>">
                      <a class="sidebar-link" href="{% url 'member_tasks' user.id %}">
                      <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">View Task</span>
                      </a>
                   </li>
-                  <li class="sidebar-item {% if currentPage == 'Account' %} active {% endif %}">
+                  {% else %}
+                  <li class="sidebar-item {% if currentPage == 'ViewTask' %} active {% endif %}>">
+                     <a class="sidebar-link" href="{% url 'lead_view_members_task' user.id %}">
+                     <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">View Task</span>
+                     </a>
+                  </li>
+                  {% endif %}
+
+                  <!-- <li class="sidebar-item {% if currentPage == 'Account' %} active {% endif %}">
                      <a class="sidebar-link" href="#">
                      <i class="align-middle" data-feather="book"></i> <span class="align-middle">Account</span>
                      </a>
-                  </li>
+                  </li> -->
 
                   <li class="sidebar-item {% if currentPage == 'Project Notes' %} active {% endif %}>">
                      <a class="sidebar-link" href="{% url 'project_notes' user.id %}">

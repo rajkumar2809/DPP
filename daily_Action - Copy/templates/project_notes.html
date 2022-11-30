@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% include "header.html" %}
+{% include "lead/header.html" %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -57,7 +57,7 @@
                 {% if project_notes %}
                 {% for p in project_notes %}
                 <div class="card">
-                    <h4>Project Id: {{p.project_id}}</h4>
+                    <h4>Project Id: {{p.project_name}}</h4>
                     <h4>Catagory Id: {{p.catagory}}</h4>
                     <h4>Date : {{p.date}}</h4>
                     <h4>Description : {{p.description}}</h4>
