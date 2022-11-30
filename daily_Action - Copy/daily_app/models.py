@@ -1,8 +1,3 @@
-from ast import Break
-from cgitb import text
-from time import sleep
-from turtle import mode
-from wsgiref.simple_server import demo_app
 from django.db import models
 
 from django.contrib.auth.models import User

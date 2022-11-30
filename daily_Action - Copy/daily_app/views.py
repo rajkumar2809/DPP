@@ -1,14 +1,4 @@
-# from asyncio import Task
-# from email import message
-# from multiprocessing import reduction
-# from operator import mod
-# import re
-from tkinter.messagebox import NO, RETRY
-from urllib import request
-from urllib.robotparser import RequestRate
 from django.shortcuts import render
-
-import requests
 from django.contrib.auth import authenticate
 from django.shortcuts import render, HttpResponse, redirect
 from datetime import datetime
@@ -21,8 +11,6 @@ from django.utils import timezone
 from datetime import datetime, timedelta, time
 import datetime
 from datetime import datetime as dt
-from django.http import JsonResponse
-import json
 
 
 
@@ -1253,7 +1241,7 @@ def update_task_after_closed(request):
 def add_notes(request , id):
 
     
-    user = NewUser.objects.filter(id = uid)
+    user = NewUser.objects.filter(id = id)
     for u in user:
         user_role = u.role
 
@@ -1281,7 +1269,7 @@ def add_notes(request , id):
 
 def to_do_update(request , id):
     print("-------to_be done notes ajax get caelld-------")
-    user = NewUser.objects.filter(id = uid)
+    user = NewUser.objects.filter(id = id)
     for u in user:
         user_role = u.role
     if request.method == "POST"  and request.headers.get('x-requested-with') == 'XMLHttpRequest':
