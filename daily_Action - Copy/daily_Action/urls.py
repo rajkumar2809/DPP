@@ -61,6 +61,7 @@ urlpatterns = [
     path("group_member/", views.group_member , name="group_member"),
     path("project_notes/<id>", views.project_notes , name="project_notes"),
     path("lead_view_members_task/<id>", views.lead_view_members_task , name="lead_view_members_task"),
+    path("member_project_notes/<id>", views.member_project_notes , name="member_project_notes"),
 
     
 ]

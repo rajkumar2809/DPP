@@ -46,16 +46,32 @@
                      <i class="align-middle" data-feather="user"></i> <span class="align-middle">Members</span>
                      </a>
                   </li>
+                  {% if user.role == "MEMBER" %}
                   <li class="sidebar-item {% if currentPage == 'View Task' %} active {% endif %}>">
                      <a class="sidebar-link" href="{% url 'member_tasks' user.id %}">
                      <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">View Task</span>
                      </a>
                   </li>
+                  {% else %}
+                  <li class="sidebar-item {% if currentPage == 'View Task' %} active {% endif %}>">
+                     <a class="sidebar-link" href="{% url 'lead_view_members_task' user.id %}">
+                     <i class="align-middle" data-feather="user-plus"></i> <span class="align-middle">View Task</span>
+                     </a>
+                  </li>
+                  {% endif %}
+                  {% if user.role == "MEMBER" %}
                   <li class="sidebar-item {% if currentPage == 'Project Notes' %} active {% endif %}>">
-                    <a class="sidebar-link" href="{% url 'project_notes' user.id %}">
+                    <a class="sidebar-link" href="{% url 'member_project_notes' user.id %}">
                     <i class="align-middle" data-feather="book"></i> <span class="align-middle">Project Notes</span>
                     </a>
                  </li>
+                 {% else %}
+                 <li class="sidebar-item {% if currentPage == 'Project Notes' %} active {% endif %}>">
+                  <a class="sidebar-link" href="{% url 'project_notes' user.id %}">
+                  <i class="align-middle" data-feather="book"></i> <span class="align-middle">Project Notes</span>
+                  </a>
+               </li>
+                 {% endif %}
                   <li class="sidebar-item {% if currentPage == 'Account' %} active {% endif %}>">
                      <a class="sidebar-link" href="#">
                      <i class="align-middle" data-feather="book"></i> <span class="align-middle">Account</span>

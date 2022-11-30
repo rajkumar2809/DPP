@@ -1440,4 +1440,52 @@ def project_notes(request , id):
 
         # return render(request , "project_notes.html" ,{"currentPage":currentPage , "projects":projects , "project_notes":project_notes} )
 
+    return render(request , "lead/project_notes.html" ,{"currentPage":currentPage , "projects":projects , "project_notes":project_notes} )
+
+
+
+
+def member_project_notes(request , id):
+
+    projects = Project.objects.all()
+    project_notes_obj = ProjectNotes.objects.filter(user_id=id)
+    project_notes = []
+
+    for notes in project_notes_obj:
+        note_id = notes.id
+        user_id = notes.user_id
+        catagory = notes.catagory
+        date = notes.date
+        description = notes.description
+        prid = notes.project_id
+        proj_name = ""
+        #  Using id filter the project object
+        proj_obj = Project.objects.filter(id = int(prid))
+        # Get the project name
+        for proj in  proj_obj:
+            proj_name = proj.name
+        
+        project_notes.append(ProjNotes(note_id ,user_id,prid , proj_name , catagory ,date , description ))
+        
+    currentPage = 'Project Notes'
+
+    # project_notes = ProjectNotes.objects.filter()
+
+    if request.method == "POST":
+        prj = request.POST.get("project")
+        cat = request.POST.get("catagory")
+        dt = request.POST.get("date")
+        desc = request.POST.get("description")
+        print("project id is" , prj)
+        print("cat id is" , cat)
+        print("dt id is" , dt)
+        print("desc is" , desc)
+
+        prj_note = ProjectNotes(user_id = id ,project_id = prj , catagory = cat , date = dt , description = desc)
+        prj_note.save()
+
+        return redirect('/project_notes/'+str(id))
+
+        # return render(request , "project_notes.html" ,{"currentPage":currentPage , "projects":projects , "project_notes":project_notes} )
+
     return render(request , "project_notes.html" ,{"currentPage":currentPage , "projects":projects , "project_notes":project_notes} )

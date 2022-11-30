@@ -130,9 +130,15 @@
                         <a href="{% url 'view_member' %}">Members</a>
                     </li>
                     {% endif %}
+                    {% if user.role == "MEMBER" %}
                     <li>
                         <a href="{% url 'member_tasks' user.id %}">View Tasks</a>
                     </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'lead_view_members_task' user.id %}">View Tasks</a>
+                    </li>
+                    {% endif %}
                     <li>
                         <a href="{% url 'chat' user.first_name %}">Message</a>
                     </li>
