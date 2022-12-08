@@ -341,7 +341,8 @@ def lead_dashboard(request , id):
 
         test_list = []              
         for g in total_groups:
-            tasks = Tasks.objects.filter( goup_id = g.id ,user_id__gte=today, created_at__lt=tomorrow)
+            # tasks = Tasks.objects.filter( goup_id = g.id ,user_id__gte=today, created_at__lt=tomorrow)
+            tasks = Tasks.objects.filter( goup_id = g.id ,created_at__gte=today, created_at__lt=tomorrow)
             print("The length of the tasks is" , len(tasks))
             print("the group id is " , g.id)
             print("the group id type is " , type(g.id))
@@ -975,7 +976,7 @@ def member_tasks(request , id ):
     current_page = "View Task"
 
     projects = Project.objects.all()
-    tasks = Tasks.objects.filter(user_id = id)
+    tasks = Tasks.objects.filter(user_id = id).order_by('-id')
     user_filter = NewUser.objects.filter(id = id)
     total_groups = Egroup.objects.filter(lead_id = id)
 
